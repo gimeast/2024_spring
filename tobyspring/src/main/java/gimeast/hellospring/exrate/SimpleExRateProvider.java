@@ -1,5 +1,6 @@
-package gimeast.hellospring;
+package gimeast.hellospring.exrate;
 
+import gimeast.hellospring.payment.ExRateProvider;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

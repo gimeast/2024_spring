@@ -1,4 +1,4 @@
-package gimeast.hellospring;
+package gimeast.hellospring.exrate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

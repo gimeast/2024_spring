@@ -1,10 +1,12 @@
-package gimeast.hellospring;
+package gimeast.hellospring.exrate;
+
+import gimeast.hellospring.payment.ExRateProvider;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class CachedExRateProvider implements ExRateProvider{
+public class CachedExRateProvider implements ExRateProvider {
 
     private final ExRateProvider target;
 

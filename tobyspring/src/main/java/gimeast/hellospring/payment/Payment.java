@@ -1,4 +1,4 @@
-package gimeast.hellospring;
+package gimeast.hellospring.payment;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,5 +1,7 @@
 package gimeast.hellospring;
 
+import gimeast.hellospring.payment.Payment;
+import gimeast.hellospring.payment.PaymentService;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

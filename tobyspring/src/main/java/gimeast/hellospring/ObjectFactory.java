@@ -1,5 +1,9 @@
 package gimeast.hellospring;
 
+import gimeast.hellospring.exrate.CachedExRateProvider;
+import gimeast.hellospring.payment.ExRateProvider;
+import gimeast.hellospring.exrate.WebApiExRateProvider;
+import gimeast.hellospring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
