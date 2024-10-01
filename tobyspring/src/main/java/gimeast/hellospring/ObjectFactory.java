@@ -1,7 +1,6 @@
 package gimeast.hellospring;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -9,7 +8,7 @@ public class ObjectFactory {
     @Bean
     public PaymentService paymentService() {
         System.out.println("@Configuration의 paymentService() 실행은 한번만 된다.");
-        return new PaymentService(exRateProvider());
+        return new PaymentService(cachedExRateProvider());
     }
 
     @Bean
@@ -22,6 +21,11 @@ public class ObjectFactory {
     public ExRateProvider exRateProvider() {
 //        return new SimpleExRateProvider();
         return new WebApiExRateProvider();
+    }
+
+    @Bean
+    public ExRateProvider cachedExRateProvider() {
+        return new CachedExRateProvider(exRateProvider());
     }
 }
 
