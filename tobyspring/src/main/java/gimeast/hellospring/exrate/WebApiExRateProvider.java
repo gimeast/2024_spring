@@ -1,5 +1,6 @@
 package gimeast.hellospring.exrate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gimeast.hellospring.payment.ExRateProvider;
 
@@ -8,27 +9,43 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.stream.Collectors;
 
 //@Component
 public class WebApiExRateProvider implements ExRateProvider {
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
-        URL url = new URL("https://open.er-api.com/v6/latest/" + currency);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    public BigDecimal getExchangeRate(String currency) {
+        String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
-        BufferedReader br = new BufferedReader(inputStreamReader);
-        String collect = br.lines().collect(Collectors.joining());
-        br.close();
+        URI uri;
+        try {
+            uri = new URI(url);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ExRateData data = objectMapper.readValue(collect, ExRateData.class);
+        String collect;
+        try {
+            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 
-        System.out.println("API exchangeRate: " + data.rates().get("KRW"));
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                collect = br.lines().collect(Collectors.joining());
+            }
 
-        return data.rates().get("KRW");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            ExRateData data = objectMapper.readValue(collect, ExRateData.class);
+            return data.rates().get("KRW");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

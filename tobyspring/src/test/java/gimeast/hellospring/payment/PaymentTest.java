@@ -1,10 +1,8 @@
 package gimeast.hellospring.payment;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Duration;
@@ -26,7 +24,7 @@ public class PaymentTest {
     }
 
     @Test
-    void createPrepared() throws IOException {
+    void createPrepared() {
 
         Payment payment = Payment.createPrepared(
                 1L, "USD", BigDecimal.TEN, this.exRateProvider, this.clock
@@ -37,7 +35,7 @@ public class PaymentTest {
     }
 
     @Test
-    void isValid() throws IOException {
+    void isValid() {
 
         Payment payment = Payment.createPrepared(
                 1L, "USD", BigDecimal.TEN, this.exRateProvider, this.clock

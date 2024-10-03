@@ -2,7 +2,6 @@ package gimeast.hellospring.exrate;
 
 import gimeast.hellospring.payment.ExRateProvider;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,7 +18,7 @@ public class CachedExRateProvider implements ExRateProvider {
 
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
+    public BigDecimal getExchangeRate(String currency) {
         if (cachedExRate == null || cacheExpireTime.isBefore(LocalDateTime.now())) {
             cachedExRate = this.target.getExchangeRate(currency);
             cacheExpireTime = LocalDateTime.now().plusSeconds(3);

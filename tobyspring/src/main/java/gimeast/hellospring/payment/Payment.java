@@ -1,10 +1,8 @@
 package gimeast.hellospring.payment;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -28,7 +26,7 @@ public class Payment {
         this.validUntil = validUntil;
     }
 
-    public static Payment createPrepared(Long orderId, String currency, BigDecimal foreignCurrencyAmount, ExRateProvider exRateProvider, Clock clock) throws IOException {
+    public static Payment createPrepared(Long orderId, String currency, BigDecimal foreignCurrencyAmount, ExRateProvider exRateProvider, Clock clock) {
         BigDecimal exRate = exRateProvider.getExchangeRate(currency);
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
         LocalDateTime validUntil = LocalDateTime.now(clock).plusMinutes(30);

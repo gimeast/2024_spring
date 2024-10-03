@@ -1,10 +1,8 @@
 package gimeast.hellospring.payment;
 
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
-import java.time.LocalDateTime;
 
 //@Component
 public class PaymentService {
@@ -17,7 +15,7 @@ public class PaymentService {
         this.clock = clock;
     }
 
-    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
+    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) {
         return Payment.createPrepared(orderId, currency, foreignCurrencyAmount, this.exRateProvider, this.clock);
     }
 

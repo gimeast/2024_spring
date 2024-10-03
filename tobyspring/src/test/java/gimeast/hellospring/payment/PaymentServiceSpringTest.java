@@ -2,13 +2,10 @@ package gimeast.hellospring.payment;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -29,7 +26,7 @@ class PaymentServiceSpringTest {
     ExRateProviderStub exRateProviderStub;
 
     @Test
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
         assertThat(payment.getExRate()).isEqualByComparingTo(valueOf(1_000));
@@ -43,7 +40,7 @@ class PaymentServiceSpringTest {
     }
 
     @Test
-    void validUntil() throws IOException {
+    void validUntil() {
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
         //valid until이 prepare() 30분 뒤로 설정 됐는가?
