@@ -1,8 +1,9 @@
 package gimeast.hellospring.exrate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gimeast.hellospring.api.ApiExecutor;
+import gimeast.hellospring.api.ErApiExRateExtractor;
+import gimeast.hellospring.api.ExRateExtractor;
 import gimeast.hellospring.api.SimpleApiExecutor;
 import gimeast.hellospring.payment.ExRateProvider;
 
@@ -16,10 +17,10 @@ public class WebApiExRateProvider implements ExRateProvider {
     @Override
     public BigDecimal getExchangeRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
-        return runApiForExRate(url, new SimpleApiExecutor());
+        return runApiForExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 
-    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
             uri = new URI(url);
@@ -35,16 +36,10 @@ public class WebApiExRateProvider implements ExRateProvider {
         }
 
         try {
-            return extractExRate(response);
+            return exRateExtractor.extractExRate(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static BigDecimal extractExRate(String response) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ExRateData data = objectMapper.readValue(response, ExRateData.class);
-        return data.rates().get("KRW");
     }
 
 }
