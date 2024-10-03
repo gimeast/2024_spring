@@ -13,13 +13,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.stream.Collectors;
 
-//@Component
 public class WebApiExRateProvider implements ExRateProvider {
 
     @Override
     public BigDecimal getExchangeRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
+        return runApiForExRate(url);
+    }
+
+    private static BigDecimal runApiForExRate(String url) {
         URI uri;
         try {
             uri = new URI(url);
@@ -27,25 +30,32 @@ public class WebApiExRateProvider implements ExRateProvider {
             throw new RuntimeException(e);
         }
 
-        String collect;
+        String response;
         try {
-            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-
-            try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                collect = br.lines().collect(Collectors.joining());
-            }
-
+            response = executeAPI(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ExRateData data = objectMapper.readValue(collect, ExRateData.class);
-            return data.rates().get("KRW");
+            return extractExRate(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private static BigDecimal extractExRate(String response) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ExRateData data = objectMapper.readValue(response, ExRateData.class);
+        return data.rates().get("KRW");
+    }
+
+    private static String executeAPI(URI uri) throws IOException {
+        String response;
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            response = br.lines().collect(Collectors.joining());
+        }
+        return response;
     }
 }
