@@ -1,5 +1,11 @@
 package gimeast.hellospring;
 
+import gimeast.hellospring.api.ApiExecutor;
+import gimeast.hellospring.api.ApiTemplate;
+import gimeast.hellospring.api.ErApiExRateExtractor;
+import gimeast.hellospring.api.ExRateExtractor;
+import gimeast.hellospring.api.HttpClientApiExecutor;
+import gimeast.hellospring.api.SimpleApiExecutor;
 import gimeast.hellospring.payment.ExRateProvider;
 import gimeast.hellospring.exrate.WebApiExRateProvider;
 import gimeast.hellospring.payment.PaymentService;
@@ -12,14 +18,17 @@ import java.time.Clock;
 public class PaymentConfig {
     @Bean
     public PaymentService paymentService() {
-        System.out.println("@Configuration의 paymentService() 실행은 한번만 된다.");
         return new PaymentService(exRateProvider(), clock());
     }
 
     @Bean
+    public ApiTemplate apiTemplate() {
+        return new ApiTemplate(new HttpClientApiExecutor(), new ErApiExRateExtractor());
+    }
+
+    @Bean
     public ExRateProvider exRateProvider() {
-//        return new SimpleExRateProvider();
-        return new WebApiExRateProvider();
+        return new WebApiExRateProvider(apiTemplate());
     }
 
     @Bean
