@@ -6,11 +6,13 @@ import gimeast.hellospring.api.ErApiExRateExtractor;
 import gimeast.hellospring.api.ExRateExtractor;
 import gimeast.hellospring.api.HttpClientApiExecutor;
 import gimeast.hellospring.api.SimpleApiExecutor;
+import gimeast.hellospring.exrate.RestTemplateExRateProvider;
 import gimeast.hellospring.payment.ExRateProvider;
 import gimeast.hellospring.exrate.WebApiExRateProvider;
 import gimeast.hellospring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.Clock;
 
@@ -27,8 +29,13 @@ public class PaymentConfig {
     }
 
     @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public ExRateProvider exRateProvider() {
-        return new WebApiExRateProvider(apiTemplate());
+        return new RestTemplateExRateProvider(restTemplate());
     }
 
     @Bean
