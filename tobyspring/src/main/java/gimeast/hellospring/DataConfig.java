@@ -46,14 +46,4 @@ public class DataConfig {
     public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
-
-    @Bean
-    public OrderRepositoryTemplate orderRepositoryTemplate() {
-        return new OrderRepositoryTemplate();
-    }
-
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository(orderRepositoryTemplate());
-    }
 }
