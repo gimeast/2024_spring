@@ -1,7 +1,5 @@
 package gimeast.hellospring;
 
-import gimeast.hellospring.data.OrderRepository;
-import gimeast.hellospring.data.OrderRepositoryTemplate;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;

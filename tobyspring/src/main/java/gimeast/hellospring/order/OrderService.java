@@ -1,6 +1,5 @@
 package gimeast.hellospring.order;
 
-import gimeast.hellospring.data.OrderRepository;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -9,11 +8,11 @@ import java.math.BigDecimal;
 
 @Service
 public class OrderService {
-    private final OrderRepository repository;
+    private final OrderRepository orderRepository;
     private final JpaTransactionManager transactionManager;
 
-    public OrderService(OrderRepository repository, JpaTransactionManager transactionManager) {
-        this.repository = repository;
+    public OrderService(OrderRepository orderRepository, JpaTransactionManager transactionManager) {
+        this.orderRepository = orderRepository;
         this.transactionManager = transactionManager;
     }
 
@@ -21,7 +20,7 @@ public class OrderService {
         Order order = new Order(no, total);
 
         return new TransactionTemplate(transactionManager).execute(status -> {
-            this.repository.save(order);
+            this.orderRepository.save(order);
             return order;
         });
     }

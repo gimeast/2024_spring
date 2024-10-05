@@ -1,7 +1,8 @@
 package gimeast.hellospring;
 
-import gimeast.hellospring.data.OrderRepository;
-import gimeast.hellospring.data.OrderRepositoryTemplate;
+import gimeast.hellospring.data.JpaOrderRepository;
+import gimeast.hellospring.data.JpaOrderRepositoryTemplate;
+import gimeast.hellospring.order.OrderRepository;
 import gimeast.hellospring.order.OrderService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,13 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 @Import(DataConfig.class)
 public class OrderConfig {
     @Bean
-    public OrderRepositoryTemplate orderRepositoryTemplate() {
-        return new OrderRepositoryTemplate();
+    public JpaOrderRepositoryTemplate jpaOrderRepositoryTemplate() {
+        return new JpaOrderRepositoryTemplate();
     }
 
     @Bean
     public OrderRepository orderRepository() {
-        return new OrderRepository(orderRepositoryTemplate());
+        return new JpaOrderRepository(jpaOrderRepositoryTemplate());
     }
 
     @Bean

@@ -4,7 +4,7 @@ import gimeast.hellospring.order.Order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-public class OrderRepositoryTemplate {
+public class JpaOrderRepositoryTemplate {
     @PersistenceContext
     private EntityManager entityManager;
 
