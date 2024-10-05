@@ -21,8 +21,8 @@ public class OrderServiceSpringTest {
     @Test
     @DisplayName("주문 생성")
     void createOrder() {
-        Order order = orderService.createOrder("0", BigDecimal.TEN);
-        assertThat(Integer.parseInt(order.getNo())).isGreaterThan(0);
+        Order order = orderService.createOrder("10", BigDecimal.TEN);
+        assertThat(order.getId()).isGreaterThan(0);
     }
 
 }
