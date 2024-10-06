@@ -1,5 +1,6 @@
 package gimeast.hellospring.order;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ public class OrderServiceImpl implements OrderService{
         return order;
     }
 
+    @Transactional
     @Override
     public List<Order> createOrders(List<OrderReq> reqs) {
         return reqs.stream().map(req -> createOrder(req.no(), req.total())).toList();
